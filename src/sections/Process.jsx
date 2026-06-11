@@ -1,4 +1,9 @@
 import { Container } from "../components/layout/Container";
+import { useLayoutEffect, useRef, useState } from "react";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+gsap.registerPlugin(ScrollTrigger);
 
 const steps = [
   {
@@ -31,15 +36,75 @@ const steps = [
 ];
 
 export const Process = () => {
+  const sectionRef = useRef(null);
+  const [activeStep, setActiveStep] = useState(0);
+  const [isMobile, setIsMobile] = useState(false);
+
+  useLayoutEffect(() => {
+    const checkScreen = () => {
+      setIsMobile(window.innerWidth < 1024);
+    };
+
+    checkScreen();
+
+    window.addEventListener("resize", checkScreen);
+
+    const mm = gsap.matchMedia();
+
+    mm.add("(min-width: 1024px)", () => {
+      const trigger = ScrollTrigger.create({
+        trigger: sectionRef.current,
+        start: "top top",
+        end: "+=400%",
+        pin: true,
+        scrub: 0.5,
+
+        onUpdate: (self) => {
+          const progress = self.progress;
+
+          if (progress < 0.25) {
+            setActiveStep(0);
+          } else if (progress < 0.5) {
+            setActiveStep(1);
+          } else if (progress < 0.75) {
+            setActiveStep(2);
+          } else {
+            setActiveStep(3);
+          }
+        },
+      });
+
+      return () => {
+        trigger.kill();
+      };
+    });
+
+    return () => {
+      mm.revert();
+      window.removeEventListener("resize", checkScreen);
+    };
+  }, []);
+
   return (
-    <section className="py-32">
+    <section
+      ref={sectionRef}
+      className="
+        min-h-screen
+        lg:h-screen
+
+        flex
+        items-center
+
+        py-24
+        lg:py-0
+      ">
       <Container size="narrow">
-        <div className="mb-20">
+        <div className="mb-20 lg:mb-24">
           <span className="text-cyan-400 uppercase tracking-[0.2em] text-sm">
             Our Process
           </span>
 
-          <h2 className="font-space text-5xl md:text-7xl mt-6">
+          <h2 className="font-space text-5xl md:text-7xl mt-6 leading-[0.95]">
             Simple.
             <br />
             Intentional.
@@ -48,30 +113,68 @@ export const Process = () => {
           </h2>
         </div>
 
-        <div>
-          {steps.map((step) => (
-            <div
-              key={step.number}
-              className="
-                py-12
-                border-t
-                border-white/10
-              ">
-              <div className="flex flex-col md:flex-row gap-10">
-                <span className="text-white/40">{step.number}</span>
+        <div className={isMobile ? "space-y-16" : "space-y-10"}>
+          {steps.map((step, index) => {
+            const isActive = isMobile || activeStep === index;
 
-                <div>
-                  <h3 className="font-space text-4xl md:text-6xl">
-                    {step.title}
-                  </h3>
+            return (
+              <div key={step.number}>
+                <div className="flex gap-8 items-start">
+                  <span
+                    className={`
+                      text-lg
+                      transition-all
+                      duration-500
 
-                  <p className="mt-6 text-lg text-white/60 max-w-2xl">
-                    {step.description}
-                  </p>
+                      ${isActive ? "text-cyan-400" : "text-white/20"}
+                    `}>
+                    {step.number}
+                  </span>
+
+                  <div>
+                    <h3
+                      className={`
+                        font-space
+
+                        text-4xl
+                        md:text-6xl
+
+                        leading-[0.95]
+
+                        transition-all
+                        duration-500
+
+                        ${
+                          isActive
+                            ? "text-white scale-100"
+                            : "text-white/20 scale-95"
+                        }
+                      `}>
+                      {step.title}
+                    </h3>
+
+                    <div
+                      className={`
+                        overflow-hidden
+
+                        transition-all
+                        duration-500
+
+                        ${
+                          isActive
+                            ? "max-h-[200px] opacity-100 mt-6"
+                            : "max-h-0 opacity-0"
+                        }
+                      `}>
+                      <p className="text-lg text-white/60 leading-relaxed max-w-2xl">
+                        {step.description}
+                      </p>
+                    </div>
+                  </div>
                 </div>
               </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
       </Container>
     </section>

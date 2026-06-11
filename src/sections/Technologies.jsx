@@ -132,7 +132,7 @@ export const Technologies = () => {
 
         {/* Technologies Grid */}
 
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-y-16 gap-x-8">
+        <div className="grid grid-cols-4 md:grid-cols-4 gap-y-16 gap-x-8">
           {technologies.map((tech) => {
             const Icon = tech.icon;
 
@@ -141,17 +141,13 @@ export const Technologies = () => {
                 key={tech.name}
                 className="
                   group
-
                   flex
                   flex-col
                   items-center
-
                   gap-5
-
                   opacity-40
-
                   hover:opacity-100
-
+                  cursor-pointer
                   transition-all
                   duration-300
                 ">

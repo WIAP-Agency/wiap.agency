@@ -59,19 +59,25 @@ export const Footer = () => {
 
             <ul className="space-y-4 text-white/60">
               <li>
-                <a href="#" className="hover:text-white transition">
+                <a
+                  href="https://linkedin.com/company/wiap-agency"
+                  className="hover:text-white transition">
                   LinkedIn
                 </a>
               </li>
 
               <li>
-                <a href="#" className="hover:text-white transition">
+                <a
+                  href="https://x.com/wiap_agency"
+                  className="hover:text-white transition">
                   X / Twitter
                 </a>
               </li>
 
               <li>
-                <a href="#" className="hover:text-white transition">
+                <a
+                  href="https://instagram.com/wiap_agency"
+                  className="hover:text-white transition">
                   Instagram
                 </a>
               </li>

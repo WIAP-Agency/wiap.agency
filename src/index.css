@@ -45,7 +45,8 @@ h2,
 h3,
 h4,
 h5,
-h6 {
+h6,
+.floating-text {
   font-family: "Space Grotesk", sans-serif;
 }
 
@@ -71,25 +72,6 @@ h6 {
   line-height: 1.8;
 }
 
-@keyframes marquee {
-  from {
-    transform: translateX(0%);
-  }
-
-  to {
-    transform: translateX(-50%);
-  }
-}
-
-.marquee {
-  animation: marquee 40s linear infinite;
-}
-
-.marquee-reverse {
-  animation: marquee 40s linear infinite reverse;
-}
-
-.marquee:hover,
-.marquee-reverse:hover {
-  animation-play-state: paused;
+footer {
+  background: var(--bg-primary);
 }

@@ -13,6 +13,7 @@ export const Button = ({ children, variant = "primary" }) => {
         rounded-full
         transition-all
         duration-300
+        cursor-pointer
         ${styles[variant]}
       `}>
       {children}

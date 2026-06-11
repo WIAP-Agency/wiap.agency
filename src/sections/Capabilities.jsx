@@ -1,117 +1,262 @@
-import { useState } from "react";
 import { Container } from "../components/layout/Container";
+import { useLayoutEffect, useRef, useState } from "react";
+import gsap from "gsap";
+
+import webImage from "../assets/capabilities/web.png";
+import mobileImage from "../assets/capabilities/PayGridFX Mobile.png";
 
 const capabilities = [
   {
-    id: "01",
-    title: "Web Experiences",
-    description:
-      "Modern websites, platforms and digital products built for performance and growth.",
-    image: "https://images.unsplash.com/photo-1498050108023-c5249f4df085",
+    number: "01",
+    title: "Web Development",
+    image: webImage,
   },
 
   {
-    id: "02",
+    number: "02",
     title: "Mobile Applications",
-    description:
-      "Beautiful and intuitive mobile products designed around user behavior.",
-    image: "https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c",
+    image: mobileImage,
   },
 
   {
-    id: "03",
+    number: "03",
     title: "Product Design",
-    description:
-      "User-focused interfaces, design systems and digital experiences.",
-    image: "https://images.unsplash.com/photo-1559028012-481c04fa702d",
+    image: webImage,
   },
 
   {
-    id: "04",
-    title: "AI Automation",
-    description:
-      "Workflow automation and intelligent systems that improve efficiency.",
-    image: "https://images.unsplash.com/photo-1677442136019-21780ecad995",
+    number: "04",
+    title: "AI Integration",
+    image: webImage,
   },
 
   {
-    id: "05",
+    number: "05",
     title: "Technology Consulting",
-    description:
-      "Strategic guidance for businesses navigating digital transformation.",
-    image: "https://images.unsplash.com/photo-1552664730-d307ca884978",
+    image: webImage,
   },
 ];
 
 export const Capabilities = () => {
-  const [active, setActive] = useState(capabilities[0]);
+  const sectionRef = useRef(null);
+  const previewRef = useRef(null);
+
+  const [activeIndex, setActiveIndex] = useState(null);
+
+  const [isMobile, setIsMobile] = useState(false);
+
+  useLayoutEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth < 1024);
+    };
+
+    handleResize();
+
+    window.addEventListener("resize", handleResize);
+
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
+  useLayoutEffect(() => {
+    if (isMobile) return;
+
+    const preview = previewRef.current;
+
+    gsap.set(preview, {
+      opacity: 0,
+      scale: 0,
+    });
+
+    const handleMove = (e) => {
+      if (activeIndex === null) return;
+
+      const bounds = sectionRef.current.getBoundingClientRect();
+
+      gsap.to(preview, {
+        x: e.clientX - bounds.left + 40,
+        y: e.clientY - bounds.top - 100,
+        duration: 0.3,
+        ease: "power3.out",
+      });
+    };
+
+    const section = sectionRef.current;
+
+    section.addEventListener("mousemove", handleMove);
+
+    return () => {
+      section.removeEventListener("mousemove", handleMove);
+    };
+  }, [activeIndex, isMobile]);
+
+  useLayoutEffect(() => {
+    if (isMobile) return;
+
+    if (activeIndex !== null) {
+      gsap.to(previewRef.current, {
+        opacity: 1,
+        scale: 1,
+        duration: 0.5,
+        ease: "back.out(1.4)",
+      });
+    } else {
+      gsap.to(previewRef.current, {
+        opacity: 0,
+        scale: 0,
+        duration: 0.3,
+        ease: "power2.in",
+      });
+    }
+  }, [activeIndex, isMobile]);
 
   return (
-    <section className="py-32">
-      <Container size="wide">
-        <div className="mb-20">
+    <section ref={sectionRef} className="py-32 relative">
+      <Container size="default">
+        {/* Header */}
+
+        <div className="mb-24 text-center">
           <span className="text-cyan-400 uppercase tracking-[0.2em] text-sm">
             Selected Capabilities
           </span>
 
-          <h2 className="font-space text-5xl md:text-7xl mt-6">
-            What We Help
+          <h2 className="font-space text-5xl md:text-7xl mt-6 leading-[0.95]">
+            Crafted To Solve
             <br />
-            Businesses Build.
+            Complex Problems.
           </h2>
         </div>
 
-        <div className="grid lg:grid-cols-2 gap-20 items-center">
-          {/* LEFT */}
+        {/* Capabilities */}
 
-          <div>
-            {capabilities.map((item) => (
-              <div
-                key={item.id}
-                onMouseEnter={() => setActive(item)}
-                className="
-                  border-b
-                  border-white/10
-                  py-8
-                  cursor-pointer
-                  group
-                ">
-                <div className="flex gap-6">
-                  <span className="text-white/40">{item.id}</span>
+        <div className="space-y-6">
+          {capabilities.map((capability, index) => {
+            const isActive = activeIndex === index;
 
-                  <div>
-                    <h3 className="font-space text-3xl md:text-5xl group-hover:text-cyan-400 transition">
-                      {item.title}
-                    </h3>
+            return (
+              <div key={capability.number} className="border-b border-white/10">
+                <button
+                  onMouseEnter={() => !isMobile && setActiveIndex(index)}
+                  onMouseLeave={() => !isMobile && setActiveIndex(null)}
+                  onClick={() => {
+                    if (isMobile) {
+                      setActiveIndex(isActive ? null : index);
+                    }
+                  }}
+                  className="
+                      group
 
-                    <p className="mt-3 text-white/60 max-w-lg">
-                      {item.description}
-                    </p>
+                      w-full
+
+                      flex
+                      items-center
+
+                      gap-8
+
+                      py-8
+
+                      text-left
+
+                      cursor-pointer
+                    ">
+                  <span
+                    className={`
+                        text-lg
+
+                        transition-colors
+                        duration-300
+
+                        ${isActive ? "text-cyan-400" : "text-white/30"}
+                      `}>
+                    {capability.number}
+                  </span>
+
+                  <h3
+                    className={`
+                        font-space
+
+                        text-3xl
+                        md:text-6xl
+
+                        leading-[0.95]
+
+                        transition-all
+                        duration-300
+
+                        ${isActive ? "text-white" : "text-white/50"}
+                      `}>
+                    {capability.title}
+                  </h3>
+                </button>
+
+                {/* Mobile Preview */}
+
+                {isMobile && isActive && (
+                  <div className="pb-8">
+                    <img
+                      src={capability.image}
+                      alt={capability.title}
+                      className="
+                          w-full
+
+                          max-w-sm
+
+                          mx-auto
+
+                          object-contain
+                        "
+                    />
                   </div>
-                </div>
+                )}
               </div>
-            ))}
-          </div>
-
-          {/* RIGHT */}
-
-          <div>
-            <div className="relative overflow-hidden rounded-[32px] border border-white/10">
-              <img
-                src={active.image}
-                alt={active.title}
-                className="
-                  w-full
-                  h-[650px]
-                  object-cover
-                  transition-all
-                  duration-500
-                "
-              />
-            </div>
-          </div>
+            );
+          })}
         </div>
       </Container>
+
+      {/* Desktop Cursor Preview */}
+
+      <div
+        ref={previewRef}
+        className="
+          absolute
+          top-0
+          left-0
+
+          pointer-events-none
+
+          z-50
+
+          hidden
+          lg:block
+        ">
+        {activeIndex !== null && (
+          <div
+            className="
+              overflow-hidden
+
+              rounded-[32px]
+
+              border
+              border-white/10
+
+              bg-[#090F1A]
+
+              shadow-2xl
+            ">
+            <img
+              src={capabilities[activeIndex].image}
+              alt={capabilities[activeIndex].title}
+              className="
+                w-[250px]
+
+                h-auto
+
+                object-contain
+              "
+            />
+          </div>
+        )}
+      </div>
     </section>
   );
 };
