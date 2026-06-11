@@ -4,7 +4,7 @@ import { Moon } from "lucide-react";
 import { Container } from "./Container";
 import { OverlayMenu } from "../ui/OverlayMenu";
 
-import logo from "../../assets/WIAP logo.png";
+import logo from "../../assets/WIAP-logo.png";
 
 export const NavBar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);

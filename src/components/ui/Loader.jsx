@@ -1,7 +1,7 @@
 import { useLayoutEffect, useRef } from "react";
 import gsap from "gsap";
 
-import wiapLogo from "../../assets/WIAP logo.png";
+import wiapLogo from "../../assets/WIAP-logo.png";
 
 export const Loader = ({ onComplete }) => {
   const loaderRef = useRef(null);

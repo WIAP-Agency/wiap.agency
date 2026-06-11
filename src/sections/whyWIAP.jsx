@@ -34,7 +34,7 @@ const reasons = [
   },
 ];
 
-export const WhyWIAP = () => {
+export const whyWIAP = () => {
   const [active, setActive] = useState(0);
 
   return (
