@@ -2,7 +2,7 @@ import { Container } from "../components/layout/Container";
 import { useLayoutEffect, useRef, useState } from "react";
 import gsap from "gsap";
 
-import webImage from "../assets/capabilities/web.png";
+import webImage from "../assets/capabilities/Web.png";
 import mobileImage from "../assets/capabilities/PayGridFX-Mobile.png";
 
 const capabilities = [
