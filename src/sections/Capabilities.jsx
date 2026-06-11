@@ -5,7 +5,7 @@ import gsap from "gsap";
 import webImage from "../assets/capabilities/Web.png";
 import mobileImage from "../assets/capabilities/PayGridFX-Mobile.png";
 
-const capabilities = [
+const capabilitiesList = [
   {
     number: "01",
     title: "Web Development",
@@ -129,7 +129,7 @@ export const Capabilities = () => {
         {/* Capabilities */}
 
         <div className="space-y-6">
-          {capabilities.map((capability, index) => {
+          {capabilitiesList.map((capability, index) => {
             const isActive = activeIndex === index;
 
             return (
@@ -244,8 +244,8 @@ export const Capabilities = () => {
               shadow-2xl
             ">
             <img
-              src={capabilities[activeIndex].image}
-              alt={capabilities[activeIndex].title}
+              src={capabilitiesList[activeIndex].image}
+              alt={capabilitiesList[activeIndex].title}
               className="
                 w-[250px]
 
