@@ -1,9 +1,7 @@
 import { useEffect, useState } from "react";
 import { Moon } from "lucide-react";
-
 import { Container } from "./Container";
 import { OverlayMenu } from "../ui/OverlayMenu";
-
 import logo from "../../assets/WIAP-logo.png";
 
 export const NavBar = () => {

@@ -11,6 +11,7 @@ import { CTA } from "./sections/CTA";
 import { Footer } from "./sections/Footer";
 import { Loader } from "./components/ui/Loader";
 import { SmoothScroll } from "./components/providers/SmoothScroll";
+import { MeshBackground } from "./components/ui/MeshBackground";
 
 import { useState, useEffect } from "react";
 
@@ -34,6 +35,8 @@ function App() {
   return (
     <>
       <SmoothScroll />
+
+      <MeshBackground />
 
       {loading && <Loader onComplete={handleLoaderComplete} />}
 
